@@ -1,6 +1,9 @@
 package com.back.domain.post.post.document;
 
+import com.back.global.BaseDocument;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -15,9 +18,10 @@ import java.time.OffsetDateTime;
 
 @Document(indexName = "posts")
 @Data
-public class Post implements Persistable<String>{
-    @Id
-    private String id;
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class Post extends BaseDocument<String> {
+
     @Field(type = FieldType.Text)
     private String title;
     @Field(type = FieldType.Text)
@@ -25,19 +29,7 @@ public class Post implements Persistable<String>{
     @Field(type = FieldType.Keyword)
     private String author;
 
-    @Field(
-            type = FieldType.Date,
-            format = DateFormat.date_time
-    )
-    @CreatedDate
-    private OffsetDateTime createdAt;
 
-    @Field(
-            type = FieldType.Date,
-            format = DateFormat.date_time
-    )
-    @LastModifiedDate
-    private OffsetDateTime lastModifiedAt;
 
     public Post(String title, String content, String author) {
         this.title = title;
@@ -45,8 +37,4 @@ public class Post implements Persistable<String>{
         this.author = author;
     }
 
-    @Override
-    public boolean isNew() {
-        return id == null || (createdAt == null && lastModifiedAt == null);
-    }
 }
