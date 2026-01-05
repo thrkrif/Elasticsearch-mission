@@ -1,4 +1,4 @@
-package com.back.global.initData.exception;
+package com.back.global.exception;
 
 public class DomainException extends RuntimeException{
     String resultCode;
